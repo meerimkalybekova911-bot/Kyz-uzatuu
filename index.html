@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Даткайымдын кыз узатуусу</title>
+<meta name="description" content="Даткайымдын кыз узатуусуна урматтоо менен чакырабыз">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= 3D GOLD PARTICLE CANVAS (behind everything, full page) ================= -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- ================= FLOATING MUSIC BUTTON ================= -->
+<button id="music-toggle" class="music-btn hidden" aria-label="Музыканы күйгүзүү">
+  <span class="music-icon">♫</span>
+</button>
+
+<!-- ================= SPLASH / OPENING DOOR SCENE ================= -->
+<section id="splash" class="splash">
+  <div class="splash-bg"></div>
+  <div class="splash-vignette"></div>
+
+  <div class="door-stage">
+    <div class="door-frame">
+      <div class="door-frame-inner"></div>
+
+      <div class="door door-left" id="doorLeft">
+        <div class="door-face">
+          <span class="door-ornament door-ornament-tl"></span>
+          <span class="door-ornament door-ornament-bl"></span>
+          <div class="door-panel-line"></div>
+        </div>
+      </div>
+      <div class="door door-right" id="doorRight">
+        <div class="door-face">
+          <span class="door-ornament door-ornament-tr"></span>
+          <span class="door-ornament door-ornament-br"></span>
+          <div class="door-panel-line"></div>
+        </div>
+      </div>
+
+      <div class="door-seam"></div>
+    </div>
+
+    <div class="splash-text" id="splashText">
+      <p class="eyebrow">ЧАКЫРУУ</p>
+      <h1 class="splash-title">
+        <span>ДАТКАЙЫМДЫН</span>
+        <span class="gold-foil">КЫЗ УЗАТУУСУ</span>
+      </h1>
+      <button id="openInvitation" class="open-btn">
+        <span>ЧАКЫРУУНУ АЧУУ</span>
+      </button>
+    </div>
+  </div>
+
+  <p class="splash-hint" id="splashHint">Ачуу үчүн баскычты басыңыз</p>
+</section>
+
+<!-- ================= MAIN SITE CONTENT (revealed after doors open) ================= -->
+<main id="main-content" class="main-content">
+
+  <!-- HERO -->
+  <section id="hero" class="section hero-section">
+    <div class="hero-inner">
+      <p class="eyebrow reveal">ДАТКАЙЫМДЫН</p>
+      <h1 class="hero-title reveal">КЫЗ УЗАТУУСУ</h1>
+      <p class="hero-subtitle reveal">Сиздерди Даткайымдын кыз узатуу тоюна<br>урматтоо менен чакырабыз.</p>
+      <div class="hero-divider reveal"><span></span><i></i><span></span></div>
+    </div>
+    <div class="scroll-cue">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown-section" class="section countdown-section">
+    <p class="eyebrow reveal">КЫЗ УЗАТУУГА ЧЕЙИН</p>
+    <div class="countdown reveal" id="countdown">
+      <div class="cd-box">
+        <span class="cd-num" id="cd-days">00</span>
+        <span class="cd-label">КҮН</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-box">
+        <span class="cd-num" id="cd-hours">00</span>
+        <span class="cd-label">СААТ</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-box">
+        <span class="cd-num" id="cd-minutes">00</span>
+        <span class="cd-label">МҮНӨТ</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-box">
+        <span class="cd-num" id="cd-seconds">00</span>
+        <span class="cd-label">СЕКУНД</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENT DETAILS -->
+  <section id="details" class="section details-section">
+    <div class="details-grid">
+      <div class="detail-card reveal">
+        <div class="detail-icon">📅</div>
+        <p class="detail-label">КҮНҮ</p>
+        <p class="detail-value" id="detail-date">—</p>
+      </div>
+      <div class="detail-card reveal">
+        <div class="detail-icon">⏰</div>
+        <p class="detail-label">СААТЫ</p>
+        <p class="detail-value" id="detail-time">—</p>
+      </div>
+      <div class="detail-card reveal">
+        <div class="detail-icon">📍</div>
+        <p class="detail-label">ЖЕРИ</p>
+        <p class="detail-value" id="detail-venue">—</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VENUE / MAP -->
+  <section id="venue" class="section venue-section">
+    <div class="venue-card reveal">
+      <p class="eyebrow">📍 ТОЙ ӨТҮҮЧҮ ЖЕР</p>
+      <h3 class="venue-name" id="venue-name">—</h3>
+      <p class="venue-address" id="venue-address">—</p>
+      <a href="#" id="venue-map-link" target="_blank" rel="noopener" class="map-btn">
+        <span>КАРТАДАН КӨРҮҮ</span>
+      </a>
+      <div class="venue-ornament" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- TIMELINE / PROGRAM -->
+  <section id="program" class="section program-section">
+    <p class="eyebrow reveal">ТОЙДУН ПРОГРАММАСЫ</p>
+    <div class="timeline" id="timeline"><!-- populated by JS from invitationData.program --></div>
+  </section>
+
+  <!-- CULTURAL SECTION -->
+  <section id="culture" class="section culture-section">
+    <div class="culture-ornament-top" aria-hidden="true"></div>
+    <blockquote class="culture-quote reveal">
+      «Кыз — үйдүн куту.<br>
+      Аны ак жол тилеп, жаңы турмуш жолуна узатуу —<br>
+      ата-эне үчүн эң толкундуу жана унутулгус күндөрдүн бири.»
+    </blockquote>
+    <div class="culture-ornament-bottom" aria-hidden="true"></div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="section gallery-section">
+    <p class="eyebrow reveal">СҮРӨТ ГАЛЕРЕЯСЫ</p>
+    <div class="gallery-grid reveal" id="galleryGrid"><!-- populated by JS from galleryImages --></div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp" class="section rsvp-section">
+    <p class="eyebrow reveal">СИЗДЕРДИ КҮТӨБҮЗ ❤️</p>
+    <p class="rsvp-sub reveal">Келериңизди ырастап коюңуз</p>
+
+    <form id="rsvpForm" class="rsvp-form reveal">
+      <div class="rsvp-choice-row">
+        <button type="button" class="rsvp-choice" data-value="yes" id="rsvpYes">КЕЛЕМ</button>
+        <button type="button" class="rsvp-choice" data-value="no" id="rsvpNo">КЕЛЕ АЛБАЙМ</button>
+      </div>
+
+      <label class="rsvp-label" for="rsvpName">Атыңыз</label>
+      <input type="text" id="rsvpName" class="rsvp-input" placeholder="Атыңызды жазыңыз" required>
+
+      <label class="rsvp-label" for="rsvpGuests">Канча адам</label>
+      <select id="rsvpGuests" class="rsvp-input">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+
+      <label class="rsvp-label" for="rsvpMessage">Каалооңуз (милдеттүү эмес)</label>
+      <textarea id="rsvpMessage" class="rsvp-input" rows="3" placeholder="Тилек-каалооңузду жазыңыз"></textarea>
+
+      <button type="submit" class="rsvp-submit">ЖИБЕРҮҮ</button>
+
+      <p class="rsvp-status" id="rsvpStatus"></p>
+    </form>
+  </section>
+
+  <!-- FINAL CINEMATIC SECTION -->
+  <section id="final" class="section final-section">
+    <div class="final-glow" aria-hidden="true"></div>
+    <h2 class="final-title reveal">ДАТКАЙЫМДЫН<br>КЫЗ УЗАТУУСУ</h2>
+    <p class="final-wish reveal">Ак жолтой болсун!</p>
+  </section>
+
+</main>
+
+<!-- ================= FULLSCREEN GALLERY LIGHTBOX ================= -->
+<div id="lightbox" class="lightbox hidden">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Жабуу">✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Мурунку">‹</button>
+  <img src="" alt="" class="lightbox-img" id="lightboxImg">
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Кийинки">›</button>
+</div>
+
+<!-- ================= AUDIO ================= -->
+<audio id="bgMusic" loop preload="none"></audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
