@@ -5,19 +5,19 @@
 
 const invitationData = {
   brideName: "Даткайым",
-  eventTitle: "КЫЗ УЗАТУУ",
+  eventTitle: "Даткайымдын кыз узатуусу",
 
   // Countdown target — ISO date + time, 24h format
-  date: "2026-10-10",          // YYYY-MM-DD
+  date: "2026-12-20",          // YYYY-MM-DD
   time: "17:00",                // HH:MM
 
   // What guests see in the details section (edit freely, any format)
-  displayDate: "10-октябрь, 2026-жыл",
+  displayDate: "20-декабрь, 2026-жыл",
   displayTime: "17:00",
 
-  venue: "\u00abКасиет\u00bb гранд рестораны",
-  address: "Ош шаары, Мамырова көчөсү 100",
-  mapLink: "https://go.2gis.com/G9hXt",
+  venue: "\u00abАсман Пэлас\u00bb той толгону",
+  address: "Бишкек шаары, Чүй проспекти 123",
+  mapLink: "https://maps.google.com/?q=Bishkek",
 
   music: "music.mp3",
 
@@ -28,6 +28,25 @@ const invitationData = {
     { time: "20:30", label: "Каалоо-тилектер" },
     { time: "21:30", label: "Музыкалык программа" },
   ],
+};
+
+// Google Form that quietly collects RSVP responses into a Google Sheet.
+// Get these values from Google Forms: ⋮ menu → "Get pre-filled link" →
+// fill dummy answers → copy link → the entry.XXXXXXX numbers are below.
+const googleFormConfig = {
+  formId: "1FAIpQLSdcFJGIJvC8RLE5Dp-fU_yvQxjNYP49nU3detifd7Fl91DK7A",
+  entries: {
+    name: "entry.1346962006",
+    attendance: "entry.1044444492",
+    guests: "entry.785782901",
+    message: "entry.1948446755",
+  },
+  // Must match the exact option text used in the Google Form's
+  // "Келесизби?" multiple-choice question.
+  attendanceLabels: {
+    yes: "Келем",
+    no: "Келе албайм",
+  },
 };
 
 const galleryImages = [
@@ -370,19 +389,29 @@ function initRSVP() {
       submittedAt: new Date().toISOString(),
     };
 
-    // --------------------------------------------------------
-    // Structured for a future backend: replace this block with
-    // a real request, e.g.:
-    //
-    // fetch('https://your-api.example.com/rsvp', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(response)
-    // });
-    // --------------------------------------------------------
+    // Local backup copy, in case the Google Form submission fails silently.
     const stored = JSON.parse(localStorage.getItem('rsvpResponses') || '[]');
     stored.push(response);
     localStorage.setItem('rsvpResponses', JSON.stringify(stored));
+
+    // Send the response to the Google Form → Google Sheet, without the
+    // guest ever seeing the Google Forms page. Google Forms does not
+    // send CORS headers, so the response can't be read here — that's
+    // expected, "no-cors" mode still delivers the submission.
+    const gf = googleFormConfig;
+    const formBody = new URLSearchParams({
+      [gf.entries.name]: name,
+      [gf.entries.attendance]: gf.attendanceLabels[attendance],
+      [gf.entries.guests]: response.guests,
+      [gf.entries.message]: message,
+    });
+
+    fetch(`https://docs.google.com/forms/d/e/${gf.formId}/formResponse`, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formBody.toString(),
+    }).catch(() => { /* network hiccup — local backup above still has it */ });
 
     status.classList.remove('error');
     status.textContent = attendance === 'yes'
