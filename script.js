@@ -8,16 +8,16 @@ const invitationData = {
   eventTitle: "Даткайымдын кыз узатуусу",
 
   // Countdown target — ISO date + time, 24h format
-  date: "2026-12-20",          // YYYY-MM-DD
+  date: "2026-10-25",          // YYYY-MM-DD
   time: "17:00",                // HH:MM
 
   // What guests see in the details section (edit freely, any format)
-  displayDate: "20-декабрь, 2026-жыл",
+  displayDate: "25-октябрь, 2026-жыл",
   displayTime: "17:00",
 
-  venue: "\u00abАсман Пэлас\u00bb той толгону",
-  address: "Бишкек шаары, Чүй проспекти 123",
-  mapLink: "https://maps.google.com/?q=Bishkek",
+  venue: "\u00abАк Бата\u00bb той гранд рестораны",
+  address: "Ош областы, Гүлчө шаары",
+  mapLink: "https://yandex.com/maps/org/177911665821/",
 
   music: "music.mp3",
 
