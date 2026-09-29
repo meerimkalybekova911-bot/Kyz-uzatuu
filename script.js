@@ -9,21 +9,21 @@ const invitationData = {
 
   // Countdown target — ISO date + time, 24h format
   date: "2026-10-25",          // YYYY-MM-DD
-  time: "17:00",                // HH:MM
+  time: "16:00",                // HH:MM
 
   // What guests see in the details section (edit freely, any format)
   displayDate: "25-октябрь, 2026-жыл",
-  displayTime: "17:00",
+  displayTime: "16:00",
 
-  venue: "\u00abАк Бата\u00bb той гранд рестораны",
+  venue: "\u00abАк Бата\u00bb рестораны",
   address: "Ош областы, Гүлчө шаары",
   mapLink: "https://yandex.com/maps/org/177911665821/",
 
   music: "music.mp3",
 
   program: [
-    { time: "18:00", label: "Конокторду тосуп алуу" },
-    { time: "18:30", label: "Кыз узатуу аземи" },
+    { time: "16:00", label: "Конокторду тосуп алуу" },
+    { time: "17:30", label: "Кыз узатуу аземи" },
     { time: "19:30", label: "Тамактануу" },
     { time: "20:30", label: "Каалоо-тилектер" },
     { time: "21:30", label: "Музыкалык программа" },
